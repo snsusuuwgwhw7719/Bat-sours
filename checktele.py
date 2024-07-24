@@ -321,26 +321,24 @@ async def _(event):
             await event.edit(f"حسناً سأحاول تثبيت `{username}` على `{ch}` , بعدد `{msg[0]}` من المحاولات !")
 
 @sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة التثبيت التلقائي"))
-async def _(event):
+async def auto_pin_status(event):
     if "on" in isauto:
         msg = await event.edit(f"التثبيت وصل لـ({trys}) من المحاولات")
     elif "off" in isauto:
         await event.edit("لايوجد تثبيت شغال !")
     else:
         await event.edit("خطأ")
-    
+
     for i in range(int(msg[0])):
         if ispay2[0] == 'no':
             break
-        t = Thread(target=lambda q, arg1: q.put(
-            check_user(arg1)), args=(que, username))
+        t = Thread(target=lambda q, arg1: q.put(check_user(arg1)), args=(que, username))
         t.start()
         t.join()
         isav = que.get()
         if "Available" in isav:
             try:
-                await sython(functions.channels.UpdateUsernameRequest(
-                    channel=ch, username=username))
+                await sython(functions.channels.UpdateUsernameRequest(channel=ch, username=username))
                 await event.client.send_message("@isandreew", f'''
 ⌯ Done caught before @illl0 ! ⚡
 ⤷ UserName : {username} 
@@ -352,8 +350,7 @@ async def _(event):
             except telethon.errors.rpcerrorlist.UsernameInvalidError:
                 await event.client.send_message(event.chat_id, f"مبند `{username}` ❌❌")
                 break
-            except Exception:
-                pass
+            except Exception as eee:
                 if "A wait of" in str(eee):
                     break
         else:
@@ -361,19 +358,27 @@ async def _(event):
         trys += 1
 
         await asyncio.sleep(8)
+
     trys = ""
     isclaim.clear()
     isclaim.append("off")
     await sython.send_message(event.chat_id, "تم الانتهاء من التثبيت التلقائي")
 
-if msg[0] == "يدوي":  # تثبيت يدوي يوزر قناة
+
+@sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة التثبيت يدوي"))
+async def manual_pin(event):
+    msg = event.message.text.split()
+    if len(msg) < 3:
+        await event.edit("خطأ في المدخلات يجب توفير اسم المستخدم واسم القناة")
+        return
+
+    username = msg[1]
+    ch = msg[2]
+
     await event.edit(f"حسناً سأحاول تثبيت `{username}` على `{ch}` !")
-    msg = ("".join(event.text.split(maxsplit=1)[1:])).split(" ", 1)
-    username = str(msg[0])
-    ch = str(msg[1])
+
     try:
-        await sython(functions.channels.UpdateUsernameRequest(
-            channel=ch, username=username))
+        await sython(functions.channels.UpdateUsernameRequest(channel=ch, username=username))
         await event.client.send_message(event.chat_id, f'''
 ⌯ Done caught before @illl0 ! ⚡
 ⤷ UserName : {username} 
@@ -383,16 +388,17 @@ if msg[0] == "يدوي":  # تثبيت يدوي يوزر قناة
     ''')
     except telethon.errors.rpcerrorlist.UsernameInvalidError:
         await event.client.send_message(event.chat_id, f"مبند `{username}` ❌❌")
-    except Exception:
+    except Exception as eee:
         pass
 
 Threads = []
 for t in range(250):
-    x = threading.Thread(target=_)
+    x = threading.Thread(target=auto_pin_status)
     le = threading.Thread(target=gen_user)
     x.start()
     le.start()
     Threads.append(x)
     Threads.append(le)
+
 for Th in Threads:
     Th.join()
