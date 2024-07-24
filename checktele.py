@@ -292,11 +292,11 @@ async def _(event):
                     with open("banned.txt", "a") as f:
                         f.write(f"\n{username}")
                 except Exception as eee:
-                    await sython.send_message(event.chat_id, f''' خطأ مع :  @{username} - {eee} ''')
+                    await sython.send_message("@x_o_x", f''' خطأ مع :  @{username} - {eee} ''')
                     if "A wait of" in str(eee):
                         break
                     else:
-                        await sython.send_message(event.chat.id, f"@{username}")
+                        await sython.send_message("@x_o_x", f"@{username}")
             else:
                 pass
             trys += 1
