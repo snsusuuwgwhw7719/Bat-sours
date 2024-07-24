@@ -247,7 +247,7 @@ async def _(event):
 راح افحصلك `{choice}` على `{ch}` بمحاولات `{msg[0]}` ومن الله التوفيق ❣️
  """)
 
-        @sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة الصيد"))
+@sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة الصيد"))
 async def _(event):
     if ispay2[0] == "yes":
         if "on" in isclaim:
@@ -320,7 +320,7 @@ async def _(event):
             ch = str(msg[1])
             await event.edit(f"حسناً سأحاول تثبيت `{username}` على `{ch}` , بعدد `{msg[0]}` من المحاولات !")
 
-            @sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة التثبيت التلقائي"))
+@sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة التثبيت التلقائي"))
 async def _(event):
     if "on" in isauto:
         msg = await event.edit(f"التثبيت وصل لـ({trys}) من المحاولات")
