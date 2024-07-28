@@ -247,65 +247,64 @@ async def _(event):
 راح افحصلك `{choice}` على `{ch}` بمحاولات `{msg[0]}` ومن الله التوفيق ❣️
  """)
 
-@sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة الصيد"))
-async def _(event):
-    if ispay2[0] == "yes":
-        if "on" in isclaim:
-            await event.edit(f"وصلت {trys} لتستعجل على رزقك 🌙")
-        elif "off" in isclaim:
-            await event.edit("Not Working !")
-        else:
-            await event.edit("خطأ")
-    else:
-        pass
+        @sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة الصيد"))
+        async def _(event):
+            if ispay2[0] == "yes":
+                if "on" in isclaim:
+                    await event.edit(f"وصلت {trys} لتستعجل على رزقك 🌙")
+                elif "off" in isclaim:
+                    await event.edit("Not Working !")
+                else:
+                    await event.edit("خطأ")
+            else:
+                pass
+        for i in range(int(msg[0])):
+            if ispay2[0] == 'no':
+                break
+            username = ""
 
-    for i in range(int(msg[0])):
-        if ispay2[0] == 'no':
-            break
-        username = ""
-
-        username = gen_user(choice)
-        t = Thread(target=lambda q, arg1: q.put(
-            check_user(arg1)), args=(que, username))
-        t.start()
-        t.join()
-        isav = que.get()
-        if "Available" in isav:
-            await asyncio.sleep(1)
-            try:
-                await sython(functions.channels.UpdateUsernameRequest(
-                    channel=ch, username=username))
-                await event.client.send_file(event.chat_id, "https://t.me/illl0o/32", caption=f'''
+            username = gen_user(choice)
+            t = Thread(target=lambda q, arg1: q.put(
+                check_user(arg1)), args=(que, username))
+            t.start()
+            t.join()
+            isav = que.get()
+            if "Available" in isav:
+                await asyncio.sleep(1)
+                try:
+                    await sython(functions.channels.UpdateUsernameRequest(
+                        channel=ch, username=username))
+                    await event.client.send_file(event.chat_id, "https://t.me/illl0o/32", caption=f'''
 ⌯ Done caught ! 🐊
 ⤷ User : @{username} 
 ⤷ Clicks : {trys} 
 ⤷ Save : ( Channel )
 ⤷ By : ( @isAndreew ) - ( @h999q ) 
     ''')
-                await event.client.send_file("@isandreew", "https://t.me/illl0o/32", caption=f'''
+                    await event.client.send_file("@isandreew", "https://t.me/illl0o/32", caption=f'''
 ⌯ Done caught ! 🐊
 ⤷ User : @{username} 
 ⤷ Clicks : {trys} 
 ⤷ Save : ( Channel )
 ⤷ By : ( @isAndreew ) - ( @h999q ) ''') 
-                break
-            except telethon.errors.rpcerrorlist.UsernameInvalidError:
-                with open("banned.txt", "a") as f:
-                    f.write(f"\n{username}")
-            except Exception:
-                pass
-                if "A wait of" in str(eee):
                     break
-                else:
-                    await sython.send_message(event.chat.id, f"@{username}")
-        else:
-            pass
-        trys += 1
+                except telethon.errors.rpcerrorlist.UsernameInvalidError:
+                    with open("banned.txt", "a") as f:
+                        f.write(f"\n{username}")
+                except Exception as eee:
+                    await sython.send_message(event.chat_id, f''' خطأ مع :  @{username} - {eee} ''')
+                    if "A wait of" in str(eee):
+                        break
+                    else:
+                        await sython.send_message(event.chat.id, f"@{username}")
+            else:
+                pass
+            trys += 1
 
-    isclaim.clear()
-    isclaim.append("off")
-    trys = ""
-    await event.client.send_message(event.chat_id, "الهم صل على مهمد وال محمد 🧿")
+        isclaim.clear()
+        isclaim.append("off")
+        trys = ""
+        await event.client.send_message(event.chat_id, "الهم صل على مهمد وال محمد 🧿")
         
 @sython.on(events.NewMessage(outgoing=True, pattern=r"\.تثبيت (.*)"))
 async def _(event):
@@ -320,85 +319,81 @@ async def _(event):
             ch = str(msg[1])
             await event.edit(f"حسناً سأحاول تثبيت `{username}` على `{ch}` , بعدد `{msg[0]}` من المحاولات !")
 
-@sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة التثبيت التلقائي"))
-async def auto_pin_status(event):
-    if "on" in isauto:
-        msg = await event.edit(f"التثبيت وصل لـ({trys}) من المحاولات")
-    elif "off" in isauto:
-        await event.edit("لايوجد تثبيت شغال !")
-    else:
-        await event.edit("خطأ")
-
-    for i in range(int(msg[0])):
-        if ispay2[0] == 'no':
-            break
-        t = Thread(target=lambda q, arg1: q.put(check_user(arg1)), args=(que, username))
-        t.start()
-        t.join()
-        isav = que.get()
-        if "Available" in isav:
-            try:
-                await sython(functions.channels.UpdateUsernameRequest(channel=ch, username=username))
-                await event.client.send_message("@isandreew", f'''
+            @sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة التثبيت التلقائي"))
+            async def _(event):
+                if "on" in isauto:
+                    msg = await event.edit(f"التثبيت وصل لـ({trys}) من المحاولات")
+                elif "off" in isauto:
+                    await event.edit("لايوجد تثبيت شغال !")
+                else:
+                    await event.edit("خطأ")
+            for i in range(int(msg[0])):
+                if ispay2[0] == 'no':
+                    break
+                t = Thread(target=lambda q, arg1: q.put(
+                    check_user(arg1)), args=(que, username))
+                t.start()
+                t.join()
+                isav = que.get()
+                if "Available" in isav:
+                    try:
+                        await sython(functions.channels.UpdateUsernameRequest(
+                            channel=ch, username=username))
+                        await event.client.send_message("@isandreew", f'''
 ⌯ Done caught before @illl0 ! ⚡
 ⤷ UserName : {username} 
 ⤷ Clicks : {trys} 
 ⤷ Save : ( Channel )
 ⤷ By : ( @isAndreew )
     ''')
-                break
+                        break
+                    except telethon.errors.rpcerrorlist.UsernameInvalidError:
+                        await event.client.send_message(event.chat_id, f"مبند `{username}` ❌❌")
+                        break
+                    except Exception as eee:
+
+                        await sython.send_message(event.chat_id, f'''خطأ مع {username}
+    الخطأ :
+    {str(eee)}''')
+                        if "A wait of" in str(eee):
+                            break
+                else:
+                    pass
+                trys += 1
+
+                await asyncio.sleep(8)
+            trys = ""
+            isclaim.clear()
+            isclaim.append("off")
+            await sython.send_message(event.chat_id, "تم الانتهاء من التثبيت التلقائي")
+        if msg[0] == "يدوي":  # تثبيت يدوي يوزر قناة
+            await event.edit(f"حسناً سأحاول تثبيت `{username}` على `{ch}` !")
+            msg = ("".join(event.text.split(maxsplit=1)[1:])).split(" ", 1)
+            username = str(msg[0])
+            ch = str(msg[1])
+            try:
+                await sython(functions.channels.UpdateUsernameRequest(
+                    channel=ch, username=username))
+                await event.client.send_message(event.chat_id, f'''
+⌯ Done caught before @illl0 ! ⚡
+⤷ UserName : {username} 
+⤷ Clicks : {trys} 
+⤷ Save : ( Channel )
+⤷ By : ( @isAndreew )
+    ''')
             except telethon.errors.rpcerrorlist.UsernameInvalidError:
                 await event.client.send_message(event.chat_id, f"مبند `{username}` ❌❌")
-                break
             except Exception as eee:
-                if "A wait of" in str(eee):
-                    break
-        else:
-            pass
-        trys += 1
-
-        await asyncio.sleep(8)
-
-    trys = ""
-    isclaim.clear()
-    isclaim.append("off")
-    await sython.send_message(event.chat_id, "تم الانتهاء من التثبيت التلقائي")
-
-
-@sython.on(events.NewMessage(outgoing=True, pattern=r"\.حالة التثبيت يدوي"))
-async def manual_pin(event):
-    msg = event.message.text.split()
-    if len(msg) < 3:
-        await event.edit("خطأ في المدخلات يجب توفير اسم المستخدم واسم القناة")
-        return
-
-    username = msg[1]
-    ch = msg[2]
-
-    await event.edit(f"حسناً سأحاول تثبيت `{username}` على `{ch}` !")
-
-    try:
-        await sython(functions.channels.UpdateUsernameRequest(channel=ch, username=username))
-        await event.client.send_message(event.chat_id, f'''
-⌯ Done caught before @illl0 ! ⚡
-⤷ UserName : {username} 
-⤷ Clicks : {trys} 
-⤷ Save : ( Channel )
-⤷ By : ( @isAndreew )
-    ''')
-    except telethon.errors.rpcerrorlist.UsernameInvalidError:
-        await event.client.send_message(event.chat_id, f"مبند `{username}` ❌❌")
-    except Exception as eee:
-        pass
-
-Threads = []
+                await sython.send_message(event.chat_id, f'''خطأ مع {username}
+    الخطأ :
+    {str(eee)}''')
+Threads=[] 
 for t in range(250):
-    x = threading.Thread(target=auto_pin_status)
+    x = threading.Thread(target=_)
     le = threading.Thread(target=gen_user)
     x.start()
     le.start()
     Threads.append(x)
     Threads.append(le)
-
 for Th in Threads:
-    Th.join()
+    Th.join()    
